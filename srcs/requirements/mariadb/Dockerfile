@@ -4,13 +4,30 @@ RUN apt-get update && apt-get install -y \
     mariadb-server \
     && rm -rf /var/lib/apt/lists/*
 
-COPY conf/server.cnf /etc/mysql/mariadb.conf.d/server.cnf
-
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY tools/setup.sh /usr/local/bin/
+
 RUN chmod +x /usr/local/bin/setup.sh
 
-RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
+RUN mkdir -p /var/run/mysqld 
+
+RUN touch /var/run/mysqld/mysqld.pid
+RUN touch /var/run/mysqld/mysqld.sock
+
+RUN chown -R mysql:mysql /var/run/mysqld
 
 EXPOSE 3306
 
-ENTRYPOINT ["setup.sh"]
+# ENTRYPOINT ["setup.sh"]
+CMD ["setup.sh"]
+
+
+
+
+
+
+# FROM debian:bullseye
+
+# COPY tools/setup.sh .
+
+# RUN chmod +x ./setup.sh

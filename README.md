@@ -10,6 +10,8 @@ docker compose stop
 
 docker volume ls
 
+docker exec db env
+
 # info en vrac
 docker compose -f (pour donner le lien) sinon par defaut docker-compose.yml dans le repertoire courant
 
