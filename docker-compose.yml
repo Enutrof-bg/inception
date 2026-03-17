@@ -8,7 +8,7 @@ services:
     volumes:
       - ./srcs/requirements/mariadb/tools/setup.sh:/docker-entrypoint-initdb.d/setup.sh
       - db_data:/home/kevwang/data
-    restart: always
+    # restart: unless-stopped
     # secrets:
     #  - my_secret
     env_file: 
@@ -58,9 +58,9 @@ services:
 #  my_secret:
 #   file: ./secrets/.env
 
-# networks:
-#   default:
-#     driver: bridge
+networks:
+  default:
+    driver: bridge
 
 volumes:
   db_data:

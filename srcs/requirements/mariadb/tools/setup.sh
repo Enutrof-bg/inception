@@ -5,10 +5,16 @@ echo "Database: init script running"
 
 service mariadb start
 
-# mysql --help
-mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<-EOSQL
-	CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`
+mariadb -u root -p"$MYSQL_ROOT_PASSWORD" <<-EOSQL
+	CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`;
 EOSQL
+
+
+
+# mysql --help
+# mysql -u root -p"$MYSQL_ROOT_PASSWORD" <<- EOSQL
+# 	CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`
+# EOSQL
 
 # mysql -v ON_ERROR_STOP=1 -u "$MYSQL_USER" -D "$MYSQL_DATABASE" <<-'EOSQL'
 
@@ -32,6 +38,6 @@ EOSQL
 # mysql -u root -p${MYSQL_ROOT_PASSWORD}
 
 # exec mysqld_safe
-exec mysql
+# exec mysql
 
 echo "Database: end of script"
