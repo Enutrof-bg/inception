@@ -78,5 +78,15 @@ networks:
 volumes:
   db_data:
     name: db_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/kevwang/data/mariadb
+      o: bind
   wp_data:
     name: wp_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/kevwang/data/wordpress
+      o: bind

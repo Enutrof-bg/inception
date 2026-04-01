@@ -21,9 +21,11 @@ help:
 # 	docker compose -f srcs/docker-compose.yml down -v
 
 build:
+	mkdir -p /home/kevwang/data/mariadb /home/kevwang/data/wordpress
 	docker compose build
 
 up:
+	mkdir -p /home/kevwang/data/mariadb /home/kevwang/data/wordpress
 	docker compose up -d
 
 down:
