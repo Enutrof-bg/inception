@@ -6,7 +6,7 @@ services:
      context: ./srcs/requirements/mariadb
      dockerfile: Dockerfile
     volumes:
-      - ./srcs/requirements/mariadb/tools/setup.sh:/docker-entrypoint-initdb.d/setup.sh
+      # - ./srcs/requirements/mariadb/tools/setup.sh:/docker-entrypoint-initdb.d/setup.sh
       - db_data:/var/lib/mysql
     networks:
       - default
