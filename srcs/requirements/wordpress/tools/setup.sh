@@ -1,23 +1,14 @@
 #!/bin/bash
+set -e
 
-
-if [ ! -f /var/www/html/wp-config.php ]; then
-    wp core download --allow-root
-
-    wp config create --allow-root \
-        --dbname=$MYSQL_DATABASE \
-        --dbuser=$MYSQL_USER \
-        --dbpass=$MYSQL_PASSWORD \
-        --dbhost=mariadb:3306
-
-    wp core install --allow-root \
-        --url=$DOMAIN_NAME \
-        --title=$WP_TITLE \
-        --admin_user=$WP_ADMIN_USER \
-        --admin_password=$WP_ADMIN_PASSWORD \
-        --admin_email=$WP_ADMIN_EMAIL
+if [ ! -f /var/www/html/index.php ]; then
+    tmp_dir="$(mktemp -d)"
+    curl -fsSL https://wordpress.org/latest.tar.gz -o "$tmp_dir/wordpress.tar.gz"
+    tar -xzf "$tmp_dir/wordpress.tar.gz" -C "$tmp_dir"
+    cp -a "$tmp_dir/wordpress/." /var/www/html/
+    rm -rf "$tmp_dir"
 fi
 
 mkdir -p /run/php
 
-exec /usr/sbin/php-fpm7.4 -F
+exec php-fpm -F

@@ -1,17 +1,26 @@
-FROM debian:bullseye
+FROM debian:latest
 
-RUN apt-get update && apt-get install -y \
-    wget \
-    php7.4-fpm \
-    php7.4-mysql \
-    mariadb-client \
-    && rm -rf /var/lib/apt/lists/*
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends php-fpm php-mysql curl ca-certificates tar; \
+	php_fpm_bin="$(command -v php-fpm || ls /usr/sbin/php-fpm* | head -n 1)"; \
+	php_fpm_conf="$(find /etc/php -path '*/fpm/pool.d/www.conf' | head -n 1)"; \
+	sed -ri 's|^listen\s*=.*$|listen = 9000|' "$php_fpm_conf"; \
+	ln -sf "$php_fpm_bin" /usr/local/sbin/php-fpm; \
+	rm -rf /var/lib/apt/lists/*
 
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp
+# RUN apt-get update && apt-get install -y \
+#     wget \
+#     php7.4-fpm \
+#     php7.4-mysql \
+#     mariadb-client \
+# && rm -rf /var/lib/apt/lists/*
 
-RUN sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.4/fpm/pool.d/www.conf
+# RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    # && chmod +x wp-cli.phar \
+    # && mv wp-cli.phar /usr/local/bin/wp
+
+# RUN sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.4/fpm/pool.d/www.conf
 
 WORKDIR /var/www/html
 
@@ -21,3 +30,5 @@ RUN chmod +x /usr/local/bin/setup.sh
 EXPOSE 9000
 
 ENTRYPOINT ["setup.sh"]
+
+# CMD ["php-fpm", "-F"]
