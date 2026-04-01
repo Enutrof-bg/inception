@@ -25,8 +25,8 @@ services:
 
 
   wordpress:
-  # #   depends_on:
-  # #     - db
+    depends_on:
+      - db
     build:
      context: ./srcs/requirements/wordpress/
      dockerfile: Dockerfile
@@ -38,10 +38,10 @@ services:
     networks:
       - default
     environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_HOST: db:3306
     # environment:
     #   WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
     #   WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -77,4 +77,6 @@ networks:
 
 volumes:
   db_data:
+    name: db_data
   wp_data:
+    name: wp_data

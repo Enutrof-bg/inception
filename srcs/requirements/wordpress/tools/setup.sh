@@ -9,6 +9,9 @@ if [ ! -f /var/www/html/index.php ]; then
     rm -rf "$tmp_dir"
 fi
 
+chmod -R 755 /var/www/html
+chown -R www-data:www-data /var/www/html
+
 mkdir -p /run/php
 
 exec php-fpm -F

@@ -2,7 +2,7 @@ FROM debian:latest
 
 RUN set -eux; \
 	apt-get update; \
-	apt-get install -y --no-install-recommends php-fpm php-mysql curl ca-certificates tar; \
+	apt-get install -y --no-install-recommends php-fpm php-mysql php-mysqli curl ca-certificates tar; \
 	php_fpm_bin="$(command -v php-fpm || ls /usr/sbin/php-fpm* | head -n 1)"; \
 	php_fpm_conf="$(find /etc/php -path '*/fpm/pool.d/www.conf' | head -n 1)"; \
 	sed -ri 's|^listen\s*=.*$|listen = 9000|' "$php_fpm_conf"; \
@@ -26,6 +26,7 @@ WORKDIR /var/www/html
 
 COPY ./tools/setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/setup.sh
+RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
 EXPOSE 9000
 
