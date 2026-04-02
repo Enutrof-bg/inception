@@ -9,16 +9,16 @@ RUN set -eux; \
 	ln -sf "$php_fpm_bin" /usr/local/sbin/php-fpm; \
 	rm -rf /var/lib/apt/lists/*
 
-# RUN apt-get update && apt-get install -y \
-#     wget \
+RUN apt-get update && apt-get install -y \
+    wget \
+	mariadb-client \
+	&& rm -rf /var/lib/apt/lists/*
 #     php7.4-fpm \
 #     php7.4-mysql \
-#     mariadb-client \
-# && rm -rf /var/lib/apt/lists/*
-
-# RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    # && chmod +x wp-cli.phar \
-    # && mv wp-cli.phar /usr/local/bin/wp
+    
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
 
 # RUN sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/g' /etc/php/7.4/fpm/pool.d/www.conf
 

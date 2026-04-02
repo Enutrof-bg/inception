@@ -1,28 +1,22 @@
 services:
   db:
     container_name: db
-    image: mariadb:10.6
     build:
      context: ./srcs/requirements/mariadb
      dockerfile: Dockerfile
     volumes:
-      # - ./srcs/requirements/mariadb/tools/setup.sh:/docker-entrypoint-initdb.d/setup.sh
       - db_data:/var/lib/mysql
     networks:
       - default
+    secrets:
+      - wp_password
+      - root_password
   #   # restart: unless-stopped
-  #   # secrets:
-  #   #  - my_secret
-  #   env_file: 
-  #    - path: ./.env
-  #   environment:
-  #     # MARIADB_ROOT_PASSWORD: rootpass
-  #     # MARIADB_PASSWORD: pass
-  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
-  #     MYSQL_USER: ${MYSQL_USER}
-  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_ROOT_PASSWORD: /run/secrets/root_password
+      MARIADB_PASSWORD: /run/secrets/wp_password
 
   wordpress:
     depends_on:
@@ -31,23 +25,24 @@ services:
      context: ./srcs/requirements/wordpress/
      dockerfile: Dockerfile
     container_name: wordpress
-    image: wordpress:latest
+    secrets:
+      - wp_password
+      - user_password
     volumes:
       - wp_data:/var/www/html
     restart: always
     networks:
       - default
     environment:
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: wpuser
-      WORDPRESS_DB_PASSWORD: password
-      WORDPRESS_DB_HOST: db:3306
-    # environment:
-    #   WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-    #   WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-    #   WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-    #   WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: /run/secrets/wp_password
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      SITE_TITLE: ${SITE_TITLE}
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASSWORD: /run/secrets/user_password
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
 
   nginx:
     depends_on:
@@ -56,20 +51,21 @@ services:
      context: ./srcs/requirements/nginx/
      dockerfile: Dockerfile
     container_name: nginx
-    image: nginx:1.21-alpine
     ports:
-      - "8080:80"
       - "8443:443"
     volumes:
       - wp_data:/var/www/html:ro
-      # - ./nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - default
     restart: always
 
-# secrets:
-#  my_secret:
-#   file: ./secrets/.env
+secrets:
+  root_password:
+    file: ./srcs/requirements/secrets/root_password.txt
+  wp_password:
+    file: ./srcs/requirements/secrets/wp_password.txt
+  user_password:
+    file: ./srcs/requirements/secrets/user_password.txt
 
 networks:
   default:
@@ -78,15 +74,21 @@ networks:
 volumes:
   db_data:
     name: db_data
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/kevwang/data/mariadb
-      o: bind
   wp_data:
     name: wp_data
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/kevwang/data/wordpress
-      o: bind
+
+# volumes:
+#   db_data:
+#     name: db_data
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/kevwang/data/mariadb
+#       o: bind
+#   wp_data:
+#     name: wp_data
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/kevwang/data/wordpress
+#       o: bind
