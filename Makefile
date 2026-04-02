@@ -22,19 +22,19 @@ help:
 
 build:
 	mkdir -p /home/kevwang/data/mariadb /home/kevwang/data/wordpress
-	docker compose build
+	docker compose -f srcs/docker-compose.yml build
 
 up:
 	mkdir -p /home/kevwang/data/mariadb /home/kevwang/data/wordpress
-	docker compose up -d
+	docker compose -f srcs/docker-compose.yml up -d
 
 down:
-	docker compose down
+	docker compose -f srcs/docker-compose.yml down
 
 restart: down up
 
 clean:
-	docker compose down -v
+	docker compose -f srcs/docker-compose.yml down -v
 	rm -rf data/
 
 rebuild : clean down build up

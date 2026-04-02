@@ -2,7 +2,7 @@ services:
   db:
     container_name: db
     build:
-     context: ./srcs/requirements/mariadb
+     context: ./requirements/mariadb
      dockerfile: Dockerfile
     volumes:
       - db_data:/var/lib/mysql
@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
     build:
-     context: ./srcs/requirements/wordpress/
+     context: ./requirements/wordpress/
      dockerfile: Dockerfile
     container_name: wordpress
     secrets:
@@ -52,7 +52,7 @@ services:
     depends_on:
       - wordpress
     build:
-     context: ./srcs/requirements/nginx/
+     context: ./requirements/nginx/
      dockerfile: Dockerfile
     container_name: nginx
     ports:
@@ -65,13 +65,13 @@ services:
 
 secrets:
   root_password:
-    file: ./srcs/requirements/secrets/root_password.txt
+    file: ../secrets/root_password.txt
   wp_password:
-    file: ./srcs/requirements/secrets/wp_password.txt
+    file: ../secrets/wp_password.txt
   user_password:
-    file: ./srcs/requirements/secrets/user_password.txt
+    file: ../secrets/user_password.txt
   jojo_password:
-    file: ./srcs/requirements/secrets/jojo_password.txt
+    file: ../secrets/jojo_password.txt
 
 networks:
   docker-network:
