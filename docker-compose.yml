@@ -7,7 +7,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - default
+      - docker-network
     secrets:
       - wp_password
       - root_password
@@ -33,7 +33,7 @@ services:
       - wp_data:/var/www/html
     restart: always
     networks:
-      - default
+      - docker-network
     environment:
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
@@ -60,7 +60,7 @@ services:
     volumes:
       - wp_data:/var/www/html:ro
     networks:
-      - default
+      - docker-network
     restart: always
 
 secrets:
@@ -74,7 +74,7 @@ secrets:
     file: ./srcs/requirements/secrets/jojo_password.txt
 
 networks:
-  default:
+  docker-network:
     driver: bridge
 
 volumes:
