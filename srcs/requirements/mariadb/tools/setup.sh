@@ -31,10 +31,9 @@ if [ ! -d /var/lib/mysql/${MARIADB_DATABASE} ]; then
 
 	echo "Database: Setup complete, shutting down MariaDB"
 	mysqladmin -u root -p$(cat /run/secrets/root_password) shutdown
-
-	echo "Database: Starting MariaDB in safe mode"
 fi
 
+echo "Database: Starting MariaDB in safe mode"
 exec mysqld_safe
 
 echo "Database: end of script"

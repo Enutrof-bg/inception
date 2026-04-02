@@ -1,12 +1,19 @@
 FROM debian:latest
 
-RUN apt update && apt upgrade && apt install -y nginx openssl
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
+    nginx \
+	openssl \
+    netcat-openbsd \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/nginx/ssl
 
 # RUN rm /etc/nginx/conf.d/default.conf
 # COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+
+COPY tools/setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
 
 # req : demande de certificat
 # -x509 : certificat auto-signé
@@ -18,4 +25,5 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/nginx/ssl/inception.crt \
     -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=kevwang.42.fr"
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/usr/local/bin/setup.sh"]
+# CMD ["nginx", "-g", "daemon off;"]

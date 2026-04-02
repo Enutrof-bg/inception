@@ -28,6 +28,7 @@ services:
     secrets:
       - wp_password
       - user_password
+      - jojo_password
     volumes:
       - wp_data:/var/www/html
     restart: always
@@ -43,6 +44,9 @@ services:
       ADMIN_USER: ${ADMIN_USER}
       ADMIN_PASSWORD: /run/secrets/user_password
       ADMIN_EMAIL: ${ADMIN_EMAIL}
+      JOJO_USER: ${JOJO_USER}
+      JOJO_EMAIL: ${JOJO_EMAIL}
+      JOJO_PASSWORD: /run/secrets/jojo_password
 
   nginx:
     depends_on:
@@ -66,6 +70,8 @@ secrets:
     file: ./srcs/requirements/secrets/wp_password.txt
   user_password:
     file: ./srcs/requirements/secrets/user_password.txt
+  jojo_password:
+    file: ./srcs/requirements/secrets/jojo_password.txt
 
 networks:
   default:
@@ -92,3 +98,16 @@ volumes:
 #       type: none
 #       device: /home/kevwang/data/wordpress
 #       o: bind
+
+# services:
+#   wordpress:
+#     healthcheck:
+#       test: ["CMD", "nc", "-z", "localhost", "9000"]
+#       interval: 5s
+#       timeout: 5s
+#       retries: 5
+
+#   nginx:
+#     depends_on:
+#       wordpress:
+#         condition: service_healthy
