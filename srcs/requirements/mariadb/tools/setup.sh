@@ -35,5 +35,3 @@ fi
 
 echo "Database: Starting MariaDB in safe mode"
 exec mysqld_safe
-
-echo "Database: end of script"

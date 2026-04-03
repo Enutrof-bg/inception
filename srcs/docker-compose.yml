@@ -11,7 +11,7 @@ services:
     secrets:
       - wp_password
       - root_password
-  #   # restart: unless-stopped
+    restart: always
     environment:
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USER}
@@ -80,34 +80,15 @@ networks:
 volumes:
   db_data:
     name: db_data
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/kevwang/data/mariadb
+      o: bind
   wp_data:
     name: wp_data
-
-# volumes:
-#   db_data:
-#     name: db_data
-#     driver: local
-#     driver_opts:
-#       type: none
-#       device: /home/kevwang/data/mariadb
-#       o: bind
-#   wp_data:
-#     name: wp_data
-#     driver: local
-#     driver_opts:
-#       type: none
-#       device: /home/kevwang/data/wordpress
-#       o: bind
-
-# services:
-#   wordpress:
-#     healthcheck:
-#       test: ["CMD", "nc", "-z", "localhost", "9000"]
-#       interval: 5s
-#       timeout: 5s
-#       retries: 5
-
-#   nginx:
-#     depends_on:
-#       wordpress:
-#         condition: service_healthy
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/kevwang/data/wordpress
+      o: bind

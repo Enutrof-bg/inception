@@ -22,6 +22,7 @@ restart: down up
 
 clean:
 	docker compose -f srcs/docker-compose.yml down -v
-	rm -rf data/
+	docker run --rm -v /home/kevwang/data/mariadb:/data alpine sh -c 'rm -rf /data/*'
+	docker run --rm -v /home/kevwang/data/wordpress:/data alpine sh -c 'rm -rf /data/*'
 
 rebuild : clean down build up

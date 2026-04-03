@@ -8,8 +8,6 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
 
 RUN mkdir -p /etc/nginx/ssl
 
-# RUN rm /etc/nginx/conf.d/default.conf
-# COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
 COPY tools/setup.sh /usr/local/bin/setup.sh

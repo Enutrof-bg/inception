@@ -14,7 +14,7 @@ fi
 echo "WordPress: Configuring WordPress"
 wp core download --locale=fr_FR --allow-root --force
 
-# if [ ! -f /var/www/html/wp-config.php ]; then
+# if [ ! -f wp-config.php ]; then
 	echo "WordPress: Creating wp-config.php"
 	wp config create --allow-root \
     --dbname="$WORDPRESS_DB_NAME" \
@@ -24,17 +24,19 @@ wp core download --locale=fr_FR --allow-root --force
     --force
 # fi
 
-echo "WordPress: Configuring WordPress"
-wp core install --url=$DOMAIN_NAME \
-                --title=$SITE_TITLE \
-                --admin_user=$ADMIN_USER \
-                --admin_password=$(cat /run/secrets/user_password) \
-                --admin_email=$ADMIN_EMAIL \
-                --locale=fr_FR \
-                --allow-root \
+# if [ ! wp core is-installed --allow-root ]; then
+	echo "WordPress: Configuring WordPress"
+	wp core install --url=$DOMAIN_NAME \
+					--title=$SITE_TITLE \
+					--admin_user=$ADMIN_USER \
+					--admin_password=$(cat /run/secrets/user_password) \
+					--admin_email=$ADMIN_EMAIL \
+					--locale=fr_FR \
+					--allow-root
+# fi
 
 if ! wp user get $JOJO_USER --allow-root > /dev/null 2>&1; then
-	echo "WordPress: Creating additional user ${JOJO_USER}"
+	echo "WordPress: Creating user"
 	wp user create $JOJO_USER $JOJO_EMAIL --user_pass=$(cat /run/secrets/jojo_password) --role=author --allow-root
 fi
 
