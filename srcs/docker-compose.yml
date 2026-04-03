@@ -1,6 +1,6 @@
 services:
-  db:
-    container_name: db
+  mariadb:
+    container_name: mariadb
     build:
      context: ./requirements/mariadb
      dockerfile: Dockerfile
@@ -20,7 +20,7 @@ services:
 
   wordpress:
     depends_on:
-      - db
+      - mariadb
     build:
      context: ./requirements/wordpress/
      dockerfile: Dockerfile
