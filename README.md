@@ -82,3 +82,22 @@ AI was used as an assistant for:
 - clarifying Docker volume behavior (named volumes vs bind mounts)
 - suggesting troubleshooting steps for MariaDB initialization
 - improving command readability in the Makefile
+
+## Project Description
+- Docker usage is interesting in various way. For 42 school project, it is useful to
+work with for sharing project code between every member and working smoothly with the same setting as everyone. It can also be used to work with tools not installed on school computer by using container and installing needed tools.
+
+- The docker is structured in way that each folder is responsible for his service and his container, to avoid unnecessary file copy when building the docker, and be easier to upgrade and debug if a problem arise.
+
+### Comparison
+- 1) **Virtual Machines vs Docker**
+	- While virtual machine create and simulate a whole new computer, Docker share the host computer kernel and isolate process in container to make the process think like a new computer with the use of namespaces from the linux node to isolate process and cgroups to limits host computer ressources usage.
+
+- 2) **Secrets vs Environment Variables**
+	- Secrets are an useful way to share sensible data with container and making them not easily visible (with command like docker inspect) while environement variable are shared with the container and easily accessible.
+
+- 3) **Docker Network vs Host Network**
+	-In the docker network, each container has not access to the host network and a new network is created when the docker is built. The network must be configured if you want the container to be able to communicate between each other, each container has his own IP adress.
+	
+- 4) **Docker Volumes vs Bind Mounts**
+	-Bind mounts store the volume on the host computer storage and are easily accessible, which is more suitable during development process, while docker volume .
