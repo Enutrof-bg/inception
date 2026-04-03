@@ -97,7 +97,8 @@ work with for sharing project code between every member and working smoothly wit
 	- Secrets are an useful way to share sensible data with container and making them not easily visible (with command like docker inspect) while environement variable are shared with the container and easily accessible.
 
 - 3) **Docker Network vs Host Network**
-	-In the docker network, each container has not access to the host network and a new network is created when the docker is built. The network must be configured if you want the container to be able to communicate between each other, each container has his own IP adress.
-	
+	- In the docker network, each container has not access to the host network and a new private network is created when the docker is built. The network must be configured if you want the container to be able to communicate between each other, each container has his own IP adress.
+	On the host network, "port" is ignored in the docker compose and each container are using the host network, if a container is listening a port, it is listening directly from the host port
+
 - 4) **Docker Volumes vs Bind Mounts**
-	-Bind mounts store the volume on the host computer storage and are easily accessible, which is more suitable during development process, while docker volume .
+	- Bind mounts store the volume on the host computer storage and are easily accessible and can be modified, which is more suitable during development process, while docker volume store data in a secret folder inside container, it is more performant and easier to share between container
