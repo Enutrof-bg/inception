@@ -84,8 +84,8 @@ AI was used as an assistant for:
 - improving command readability in the Makefile
 
 ## Project Description
-- Docker usage is interesting in various way. For 42 school project, it is useful to
-work with for sharing project code between every member and working smoothly with the same setting as everyone. It can also be used to work with tools not installed on school computer by using container and installing needed tools.
+- Docker usage is interesting in various way. For 42 school project, it is useful to work with for sharing project code between every member and working smoothly with the same setting as everyone. It can also be used to work with tools not installed on school computer by using container and installing needed tools.
+This docker is using debian:bookworm for 
 
 - The docker is structured in way that each folder is responsible for his service and his container, to avoid unnecessary file copy when building the docker, and be easier to upgrade and debug if a problem arise.
 
