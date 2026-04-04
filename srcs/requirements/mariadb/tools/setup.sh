@@ -9,7 +9,7 @@ chown -R mysql:mysql /run/mysqld
 if [ ! -d /var/lib/mysql/${MARIADB_DATABASE} ]; then
 	service mariadb start
 
-	until mariadb-admin ping > dev/null 2>&1; do
+	until mariadb-admin ping > /dev/null 2>&1; do
 		echo "Waiting for MariaDB to be available..."
 		sleep 2
 	done
@@ -30,7 +30,7 @@ if [ ! -d /var/lib/mysql/${MARIADB_DATABASE} ]; then
 	mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$(cat /run/secrets/root_password)';"
 
 	echo "Database: Setup complete, shutting down MariaDB"
-	mysqladmin -u root -p$(cat /run/secrets/root_password) shutdown
+	service mariadb stop || true
 fi
 
 echo "Database: Starting MariaDB in safe mode"
