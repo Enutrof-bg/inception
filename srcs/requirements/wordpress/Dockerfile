@@ -3,10 +3,8 @@ FROM debian:bookworm
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y php-fpm php-mysql php-mysqli; \
-	php_fpm_bin="$(command -v php-fpm || ls /usr/sbin/php-fpm* | head -n 1)"; \
-	php_fpm_conf="$(find /etc/php -path '*/fpm/pool.d/www.conf' | head -n 1)"; \
-	sed -ri 's|^listen\s*=.*$|listen = 9000|' "$php_fpm_conf"; \
-	ln -sf "$php_fpm_bin" /usr/local/sbin/php-fpm; \
+	sed -ri 's|^listen\s*=.*$|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf; \
+	ln -sf /usr/sbin/php-fpm* /usr/local/sbin/php-fpm; \
 	rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
