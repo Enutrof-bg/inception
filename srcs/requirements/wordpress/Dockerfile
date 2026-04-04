@@ -2,7 +2,7 @@ FROM debian:bookworm
 
 RUN set -eux; \
 	apt-get update; \
-	apt-get install -y php-fpm php-mysql php-mysqli; \
+	apt-get install -y php-fpm php-mysql php-mysqli netcat-openbsd; \
 	sed -ri 's|^listen\s*=.*$|listen = 9000|' /etc/php/*/fpm/pool.d/www.conf; \
 	ln -sf /usr/sbin/php-fpm* /usr/local/sbin/php-fpm; \
 	rm -rf /var/lib/apt/lists/*
