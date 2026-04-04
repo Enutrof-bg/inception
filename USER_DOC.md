@@ -26,13 +26,11 @@ make rebuild
 
 ## 3) Access the website and admin panel
 
-- Website: `https://localhost:8443`
-- WordPress admin panel: `https://localhost:8443/wp-admin`
+- Website: `https://kevwang.42.fr`
+- WordPress admin panel: `https://kevwang.42.fr/wp-admin`
 
 Notes:
-
 - The certificate is self-signed, so your browser may show a security warning.
-- Continue to the site if prompted.
 
 ## 4) Credentials and where to find them
 
@@ -62,8 +60,8 @@ Use these commands from the project root:
 
 ```bash
 docker ps
-docker compose -f srcs/docker-compose.yml logs --tail=100
-docker exec db sh -lc 'mysqladmin -u root -p"$(cat /run/secrets/root_password)" ping'
+docker compose -f srcs/docker-compose.yml logs
+docker exec mariadb sh -lc 'mysqladmin -u root -p"$(cat /run/secrets/root_password)" ping'
 ```
 
 Expected result for the last command: `mysqld is alive`.

@@ -6,7 +6,7 @@ This repository provides a Docker Compose stack with:
 
 - `mariadb`: MariaDB
 - `wordpress`: WordPress + PHP-FPM
-- `nginx`: TLS reverse proxy on port `8443`
+- `nginx`: HTTPS web server
 
 Compose file: `srcs/docker-compose.yml`.
 
@@ -24,7 +24,6 @@ Recommended quick checks:
 docker --version
 docker compose version
 docker run hello-world
-make --version
 ```
 
 ## 3) Initial setup (from scratch)
@@ -36,6 +35,18 @@ make --version
 	- `user_password.txt`
 	- `jojo_password.txt`
 3. Verify environment values in `srcs/.env`.
+Main non-secret values (database name, users, domain) are in `srcs/.env`:
+- MARIADB_DATABASE
+- MARIADB_USER
+- WORDPRESS_DB_NAME
+- WORDPRESS_DB_USER
+- WORDPRESS_DB_HOST
+- DOMAIN_NAME
+- SITE_TITLE
+- ADMIN_USER
+- ADMIN_EMAIL
+- JOJO_USER
+- JOJO_EMAIL
 4. Run:
 
 ```bash
@@ -63,7 +74,7 @@ Available Make targets:
 
 ```bash
 docker compose -f srcs/docker-compose.yml ps
-docker compose -f srcs/docker-compose.yml logs -f
+docker compose -f srcs/docker-compose.yml logs
 docker compose -f srcs/docker-compose.yml down -v
 docker volume ls
 docker volume inspect db_data
@@ -91,12 +102,10 @@ docker logs nginx
 docker exec db sh -lc 'mysqladmin -u root -p"$(cat /run/secrets/root_password)" ping'
 ```
 
-If MariaDB fails after changing volume configuration:
-
-1. Run `make rebuild` to reset containers, volumes, and host data directories
-2. Re-check database health with `mysqladmin ... ping`.
+If MariaDB fails after changing volume configuration,
+run `make rebuild` to reset containers, volumes, and host data directories
 
 ## 8) Access points
 
-- Public site: `https://localhost:8443`
-- Admin panel: `https://localhost:8443/wp-admin`
+- Public site: `https://kevwang.42.fr`
+- Admin panel: `https://kevwang.42.fr/wp-admin`

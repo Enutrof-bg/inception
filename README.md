@@ -67,13 +67,31 @@ Must modify /etc/hosts file to change localhost to kevwang.42.fr (must looks lik
 
 ### Technical references
 
-- Docker docs: https://docs.docker.com/
-- Docker Compose docs: https://docs.docker.com/compose/
-- Nginx docs: https://nginx.org/en/docs/
-- MariaDB docs: https://mariadb.com/kb/en/documentation/
-- WP-CLI docs: https://developer.wordpress.org/cli/commands/
-- Install docker: https://docs.docker.com/engine/install/debian/
-
+- Docker:
+	- Docker docs: https://docs.docker.com/
+	- Docker Compose docs: https://docs.docker.com/compose/
+	- https://learn-docker.it-sziget.hu/en/latest/pages/advanced/volumes.html
+	- Install docker: https://docs.docker.com/engine/install/debian/
+	- https://docs.docker.com/reference/compose-file/build
+	- https://hub.docker.com/_/nginx
+	- https://hub.docker.com/_/wordpress
+	- https://hub.docker.com/_/mariadb
+- Wordpress config:
+	- https://developer.wordpress.org/cli/commands/core/install/
+	- https://developer.wordpress.org/cli/commands/user/create/
+	- https://www.ionos.fr/digitalguide/hebergement/blogs/installer-wordpress-sur-nginx/
+	- WP-CLI docs: https://developer.wordpress.org/cli/commands/
+- Nginx:
+	- https://www.ibm.com/docs/fr/devops-test-perf-soa/11.0.2?topic=overview-creating-digital-certificate-openssl
+	- https://nginx.org/en/docs/
+	- https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
+- Mariadb:
+	- https://www.linuxtricks.fr/wiki/mysql-mariadb-memo-des-commandes-sql
+	- MariaDB docs: https://mariadb.com/kb/en/documentation/
+	- https://www.geeksforgeeks.org/mariadb/how-to-get-the-data-type-of-a-columns-in-mariadb/
+- Other useful links
+	- https://localhost.co/8080
+	- https://www.malekal.com/comment-changer-le-nom-de-la-machine-hostname-debian-ubuntu/
 ### AI usage disclosure
 
 AI was used as an assistant for:
